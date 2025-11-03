@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadCinemas } from '../store/cinemasSlice';
-import styles from './CinemaList.module.css';
+import styles from '../css/CinemaList.module.css';
 import {useNavigate} from "react-router-dom";
 
 const CinemaList: React.FC = () => {

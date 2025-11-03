@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import styles from './MovieDetail.module.css';
+import styles from '../css/MovieDetail.module.css';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadMovies, loadSessionsByMovieId } from '../store/movieSessionsSlice';
 import { loadCinemas } from '../store/cinemasSlice';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
-import MyTickets from './pages/MyTickets';
+import MyTickets from './components/MyTickets';
 import AuthForm from "./components/AuthForm";
 import MovieList from './components/MovieList';
 import MovieDetail from './components/MovieDetail';

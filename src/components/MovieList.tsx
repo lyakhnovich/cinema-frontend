@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import styles from './MovieList.module.css';
+import styles from '../css/MovieList.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadMovies } from '../store/movieSessionsSlice';

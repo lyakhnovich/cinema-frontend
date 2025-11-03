@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth, clearToken } from '../store/authSlice';
-import styles from './Sidebar.module.css';
+import styles from '../css/Sidebar.module.css';
 
 const Sidebar: React.FC = () => {
     const isLoggedIn = useAuth();

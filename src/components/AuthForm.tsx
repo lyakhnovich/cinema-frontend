@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { login, register } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
 import { setToken } from '../store/authSlice';
-import styles from './AuthForm.module.css';
+import styles from '../css/AuthForm.module.css';
 
 type Mode = 'login' | 'register';
 
