@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainLayout from './components/MainLayout';
+import MyTickets from './pages/MyTickets';
+import AuthForm from "./components/AuthForm";
+import MovieList from './components/MovieList';
+import MovieDetail from './components/MovieDetail';
+import CinemaList from './components/CinemaList';
+import CinemaDetail from './components/CinemaDetail';
+import Booking from "./components/Booking";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => (
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<MainLayout />}>
+                <Route path="/booking/:sessionId" element={<Booking />} />
+                <Route path="/movies" element={<MovieList />} />
+                <Route path="/cinemas" element={<CinemaList />} />
+                <Route path="tickets" element={<MyTickets />} />
+                <Route path="/movies/:id/sessions" element={<MovieDetail />} />
+                <Route path="/cinemas/:id/sessions" element={<CinemaDetail />} />
+                <Route path="/login" element={<AuthForm />} />
+                <Route path="/register" element={<AuthForm />} />
+                <Route index element={<AuthForm />} />
+            </Route>
+        </Routes>
+    </BrowserRouter>
+);
 
 export default App;
