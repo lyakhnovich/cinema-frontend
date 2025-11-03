@@ -16,8 +16,6 @@ const MyTickets: React.FC = () => {
     const movies = useAppSelector(state => state.movies.items);
     const sessionsByMovie = useAppSelector(state => state.movieSessions.byMovieId);
     const sessionsByCinema = useAppSelector(state => state.cinemaSessions.byCinemaId);
-    const loading = useAppSelector(state => state.bookings.loading);
-
     const [bookingPaymentTimeSeconds, setBookingPaymentTimeSeconds] = useState<number>(0);
 
     useEffect(() => {
@@ -27,6 +25,15 @@ const MyTickets: React.FC = () => {
             setBookingPaymentTimeSeconds(data.bookingPaymentTimeSeconds);
         });
     }, [dispatch, movies.length]);
+
+    useEffect(() => {
+        const movieIds = movies.map(m => m.id);
+        const missingIds = movieIds.filter(id => !sessionsByMovie[id]);
+
+        missingIds.forEach(id => {
+            dispatch(loadSessionsByMovieId(id));
+        });
+    }, [movies, sessionsByMovie, dispatch]);
 
     const allSessions = useMemo(() => {
         return [

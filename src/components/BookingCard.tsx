@@ -44,7 +44,7 @@ const BookingCard: React.FC<Props> = ({ booking, session, movie, bookingPaymentT
             style={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'flex-start',
+                alignItems: 'center',
                 marginBottom: '16px',
                 padding: '12px',
             }}
@@ -82,16 +82,17 @@ const BookingCard: React.FC<Props> = ({ booking, session, movie, bookingPaymentT
                         >
                             Оплатить
                         </button>
-                        {countdown !== null && (
-                            <div style={{ marginTop: '6px', fontSize: '0.85rem', color: countdown > 0 ? '#444' : 'red' }}>
-                                {countdown > 0
-                                    ? `Осталось ${Math.floor(countdown / 60)}:${String(countdown % 60).padStart(2, '0')}`
-                                    : 'Время оплаты истекло'}
-                            </div>
-                        )}
+
                     </>
                 )}
             </div>
+            {countdown !== null && (
+                <div style={{ marginTop: '6px', fontSize: '0.85rem', color: countdown > 0 ? '#444' : 'red' }}>
+                    {countdown > 0
+                        ? `Осталось ${Math.floor(countdown / 60)}:${String(countdown % 60).padStart(2, '0')}`
+                        : 'Время оплаты истекло'}
+                </div>
+            )}
         </div>
     );
 };
