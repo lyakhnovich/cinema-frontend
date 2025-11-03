@@ -3,17 +3,18 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadMyBookings } from '../store/bookingSlice';
 import { loadMovies } from '../store/moviesSlice';
 import { loadSessionsByMovieId } from '../store/movieSessionsSlice';
-import {Booking, MovieSession} from '../api/types';
+import { MovieSession } from '../api/types';
 import { fetchSettings } from '../api/settings';
-import { useNavigate } from 'react-router-dom';
 import BookingCard from "./BookingCard";
+import {loadSessionsByCinemaId} from "../store/cinemaSessionsSlice";
+import {loadCinemas} from "../store/cinemasSlice";
 
 const MyTickets: React.FC = () => {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     const bookings = useAppSelector(state => state.bookings.items);
     const movies = useAppSelector(state => state.movies.items);
+    const cinemas = useAppSelector(state => state.cinemas.items);
     const sessionsByMovie = useAppSelector(state => state.movieSessions.byMovieId);
     const sessionsByCinema = useAppSelector(state => state.cinemaSessions.byCinemaId);
     const [bookingPaymentTimeSeconds, setBookingPaymentTimeSeconds] = useState<number>(0);
@@ -27,6 +28,12 @@ const MyTickets: React.FC = () => {
     }, [dispatch, movies.length]);
 
     useEffect(() => {
+        if (cinemas.length === 0) {
+            dispatch(loadCinemas());
+        }
+    }, [cinemas.length, dispatch]);
+
+    useEffect(() => {
         const movieIds = movies.map(m => m.id);
         const missingIds = movieIds.filter(id => !sessionsByMovie[id]);
 
@@ -34,6 +41,15 @@ const MyTickets: React.FC = () => {
             dispatch(loadSessionsByMovieId(id));
         });
     }, [movies, sessionsByMovie, dispatch]);
+
+    useEffect(() => {
+        const cinemaIds = cinemas.map(c => c.id);
+        const missingIds = cinemaIds.filter(id => !sessionsByCinema[id]);
+
+        missingIds.forEach(id => {
+            dispatch(loadSessionsByCinemaId(id));
+        });
+    }, [cinemas, sessionsByCinema, dispatch]);
 
     const allSessions = useMemo(() => {
         return [
@@ -72,12 +88,14 @@ const MyTickets: React.FC = () => {
                 unpaid.map(b => {
                     const session = allSessions.find(s => s.id === b.movieSessionId);
                     const movie = session ? movies.find(m => m.id === session.movieId) : undefined;
+                    const cinema = session ? cinemas.find(m => m.id === session.cinemaId) : undefined;
                     return (
                         <BookingCard
                             key={b.id}
                             booking={b}
                             session={session as MovieSession}
                             movie={movie}
+                            cinema={cinema}
                             bookingPaymentTimeSeconds={bookingPaymentTimeSeconds}
                         />
                     );
@@ -92,12 +110,14 @@ const MyTickets: React.FC = () => {
                 future.map(b => {
                     const session = allSessions.find(s => s.id === b.movieSessionId);
                     const movie = session ? movies.find(m => m.id === session.movieId) : undefined;
+                    const cinema = session ? cinemas.find(m => m.id === session.cinemaId) : undefined;
                     return (
                         <BookingCard
                             key={b.id}
                             booking={b}
                             session={session as MovieSession}
                             movie={movie}
+                            cinema={cinema}
                             bookingPaymentTimeSeconds={bookingPaymentTimeSeconds}
                         />
                     );
@@ -112,12 +132,14 @@ const MyTickets: React.FC = () => {
                 past.map(b => {
                     const session = allSessions.find(s => s.id === b.movieSessionId);
                     const movie = session ? movies.find(m => m.id === session.movieId) : undefined;
+                    const cinema = session ? cinemas.find(m => m.id === session.cinemaId) : undefined;
                     return (
                         <BookingCard
                             key={b.id}
                             booking={b}
                             session={session as MovieSession}
                             movie={movie}
+                            cinema={cinema}
                             bookingPaymentTimeSeconds={bookingPaymentTimeSeconds}
                         />
                     );

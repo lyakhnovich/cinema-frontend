@@ -1,17 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { Booking, Movie, MovieSession } from '../api/types';
+import {Booking, Cinema, Movie, MovieSession} from '../api/types';
 import { useNavigate } from 'react-router-dom';
+import {payForBooking} from "../api/payments";
 
 type Props = {
     booking: Booking;
     session?: MovieSession;
     movie?: Movie;
+    cinema?: Cinema;
     bookingPaymentTimeSeconds: number;
 };
 
-const BookingCard: React.FC<Props> = ({ booking, session, movie, bookingPaymentTimeSeconds }) => {
+const BookingCard: React.FC<Props> = ({ booking, session, movie, cinema, bookingPaymentTimeSeconds }) => {
     const navigate = useNavigate();
     const [countdown, setCountdown] = useState<number | null>(null);
+    const [isPaying, setIsPaying] = useState(false);
+    const [paid, setPaid] = useState(booking.isPaid);
+
+    const handlePayment = async () => {
+        try {
+            setIsPaying(true);
+            console.log(booking)
+            await payForBooking(booking.id);
+            setPaid(true); // локально обновляем
+        } catch (error) {
+            console.error('Ошибка оплаты:', error);
+            alert('Не удалось оплатить бронирование');
+        } finally {
+            setIsPaying(false);
+        }
+    };
 
     useEffect(() => {
         if (!booking.isPaid && bookingPaymentTimeSeconds > 0) {
@@ -54,7 +72,7 @@ const BookingCard: React.FC<Props> = ({ booking, session, movie, bookingPaymentT
                     {movie?.title ?? `Фильм #${booking.movieSessionId}`}
                 </div>
                 <div style={{ color: '#555', marginTop: '2px' }}>
-                    {session?.cinemaId ? `Кинотеатр #${session.cinemaId}` : 'Кинотеатр неизвестен'}
+                    {cinema?.name ?? 'Кинотеатр неизвестен'}
                 </div>
                 <div style={{ color: '#777', marginTop: '2px' }}>{formattedDate}</div>
 
@@ -66,32 +84,30 @@ const BookingCard: React.FC<Props> = ({ booking, session, movie, bookingPaymentT
                     </div>
                 ))}
             </div>
-            <div style={{ marginLeft: '20px', textAlign: 'right' }}>
-                {!booking.isPaid && (
-                    <>
-                        <button
-                            style={{
-                                padding: '6px 12px',
-                                fontSize: '0.9rem',
-                                borderRadius: '4px',
-                                border: '1px solid #ccc',
-                                background: '#f5f5f5',
-                                cursor: 'pointer',
-                            }}
-                            onClick={() => navigate('/tickets')}
-                        >
-                            Оплатить
-                        </button>
-
-                    </>
-                )}
-            </div>
-            {countdown !== null && (
-                <div style={{ marginTop: '6px', fontSize: '0.85rem', color: countdown > 0 ? '#444' : 'red' }}>
-                    {countdown > 0
-                        ? `Осталось ${Math.floor(countdown / 60)}:${String(countdown % 60).padStart(2, '0')}`
-                        : 'Время оплаты истекло'}
-                </div>
+            {!paid && (
+                <>
+                    <button
+                        disabled={isPaying}
+                        onClick={handlePayment}
+                        style={{
+                            padding: '6px 12px',
+                            fontSize: '0.9rem',
+                            borderRadius: '4px',
+                            border: '1px solid #ccc',
+                            background: isPaying ? '#ddd' : '#f5f5f5',
+                            cursor: isPaying ? 'default' : 'pointer',
+                        }}
+                    >
+                        {isPaying ? 'Оплата...' : 'Оплатить'}
+                    </button>
+                    {countdown !== null && (
+                        <div style={{ marginTop: '6px', fontSize: '0.85rem', color: countdown > 0 ? '#444' : 'red' }}>
+                            {countdown > 0
+                                ? `Осталось ${Math.floor(countdown / 60)}:${String(countdown % 60).padStart(2, '0')}`
+                                : 'Время оплаты истекло'}
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );
