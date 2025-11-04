@@ -42,23 +42,23 @@ const MyTickets: React.FC = () => {
         }
     }, [cinemas.length, dispatch]);
 
-    useEffect(() => {
-        const movieIds = movies.map(m => m.id);
-        const missingIds = movieIds.filter(id => !sessionsByMovie[id]);
-
-        missingIds.forEach(id => {
-            dispatch(loadSessionsByMovieId(id));
-        });
-    }, [movies, sessionsByMovie, dispatch]);
-
-    useEffect(() => {
-        const cinemaIds = cinemas.map(c => c.id);
-        const missingIds = cinemaIds.filter(id => !sessionsByCinema[id]);
-
-        missingIds.forEach(id => {
-            dispatch(loadSessionsByCinemaId(id));
-        });
-    }, [cinemas, sessionsByCinema, dispatch]);
+    // useEffect(() => {
+    //     const movieIds = movies.map(m => m.id);
+    //     const missingIds = movieIds.filter(id => !sessionsByMovie[id]);
+    //
+    //     missingIds.forEach(id => {
+    //         dispatch(loadSessionsByMovieId(id));
+    //     });
+    // }, [movies, sessionsByMovie, dispatch]);
+    //
+    // useEffect(() => {
+    //     const cinemaIds = cinemas.map(c => c.id);
+    //     const missingIds = cinemaIds.filter(id => !sessionsByCinema[id]);
+    //
+    //     missingIds.forEach(id => {
+    //         dispatch(loadSessionsByCinemaId(id));
+    //     });
+    // }, [cinemas, sessionsByCinema, dispatch]);
 
     const allSessions = useMemo(() => {
         return [
@@ -90,69 +90,55 @@ const MyTickets: React.FC = () => {
             <h2 style={{ textAlign: 'center' }}>Мои билеты</h2>
             <h4>Не оплаченные</h4>
             <hr className="divider"/>
-            {unpaid.length === 0 ? (
-                <p style={{ color: 'grey' }}>Нет неоплаченных билетов</p>
-            ) : (
-                unpaid.map(b => {
-                    const session = allSessions.find(s => s.id === b.movieSessionId);
-                    const movie = session ? movies.find(m => m.id === session.movieId) : undefined;
-                    const cinema = session ? cinemas.find(m => m.id === session.cinemaId) : undefined;
-                    return (
-                        <BookingCard
-                            key={b.id}
-                            booking={b}
-                            session={session as MovieSession}
-                            movie={movie}
-                            cinema={cinema}
-                            bookingPaymentTimeSeconds={bookingPaymentTimeSeconds}
-                        />
-                    );
-                })
-            )}
-
+            {unpaid.map(b => {
+                const session = allSessions.find(s => s.id === b.movieSessionId);
+                const movie = session ? movies.find(m => m.id === session.movieId) : undefined;
+                const cinema = session ? cinemas.find(m => m.id === session.cinemaId) : undefined;
+                return (
+                    <BookingCard
+                        key={b.id}
+                        booking={b}
+                        session={session as MovieSession}
+                        movie={movie}
+                        cinema={cinema}
+                        bookingPaymentTimeSeconds={bookingPaymentTimeSeconds}
+                    />
+                );
+            })}
             <h4 style={{ marginTop: '30px' }}>Будущие</h4>
             <hr className="divider"/>
-            {future.length === 0 ? (
-                <p style={{ color: 'grey' }}>Нет будущих билетов</p>
-            ) : (
-                future.map(b => {
-                    const session = allSessions.find(s => s.id === b.movieSessionId);
-                    const movie = session ? movies.find(m => m.id === session.movieId) : undefined;
-                    const cinema = session ? cinemas.find(m => m.id === session.cinemaId) : undefined;
-                    return (
-                        <BookingCard
-                            key={b.id}
-                            booking={b}
-                            session={session as MovieSession}
-                            movie={movie}
-                            cinema={cinema}
-                            bookingPaymentTimeSeconds={bookingPaymentTimeSeconds}
-                        />
-                    );
-                })
-            )}
-
+            {future.map(b => {
+                const session = allSessions.find(s => s.id === b.movieSessionId);
+                const movie = session ? movies.find(m => m.id === session.movieId) : undefined;
+                const cinema = session ? cinemas.find(m => m.id === session.cinemaId) : undefined;
+                return (
+                    <BookingCard
+                        key={b.id}
+                        booking={b}
+                        session={session as MovieSession}
+                        movie={movie}
+                        cinema={cinema}
+                        bookingPaymentTimeSeconds={bookingPaymentTimeSeconds}
+                    />
+                );
+            })}
             <h4 style={{ marginTop: '30px' }}>Прошедшие</h4>
             <hr className="divider"/>
-            {past.length === 0 ? (
-                <p style={{ color: 'grey' }}>Нет прошедших билетов</p>
-            ) : (
-                past.map(b => {
-                    const session = allSessions.find(s => s.id === b.movieSessionId);
-                    const movie = session ? movies.find(m => m.id === session.movieId) : undefined;
-                    const cinema = session ? cinemas.find(m => m.id === session.cinemaId) : undefined;
-                    return (
-                        <BookingCard
-                            key={b.id}
-                            booking={b}
-                            session={session as MovieSession}
-                            movie={movie}
-                            cinema={cinema}
-                            bookingPaymentTimeSeconds={bookingPaymentTimeSeconds}
-                        />
-                    );
-                })
-            )}
+            {past.map(b => {
+                const session = allSessions.find(s => s.id === b.movieSessionId);
+                const movie = session ? movies.find(m => m.id === session.movieId) : undefined;
+                const cinema = session ? cinemas.find(m => m.id === session.cinemaId) : undefined;
+                return (
+                    <BookingCard
+                        key={b.id}
+                        booking={b}
+                        session={session as MovieSession}
+                        movie={movie}
+                        cinema={cinema}
+                        bookingPaymentTimeSeconds={bookingPaymentTimeSeconds}
+                    />
+                );
+            })}
         </div>
     );
 };
