@@ -6,6 +6,8 @@ import {MovieSession} from '../api/types';
 import {useAppDispatch, useAppSelector} from "../store/hooks";
 import {loadMovies} from "../store/moviesSlice";
 import {loadCinemas} from "../store/cinemasSlice";
+import {getToken} from "../store/authSlice";
+import styles from '../css/Booking.module.css';
 
 type Seat = { rowNumber: number; seatNumber: number };
 
@@ -18,7 +20,7 @@ const Booking: React.FC = () => {
     const [session, setSession] = useState<MovieSession | null>(null);
     const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
     const [error, setError] = useState<string | null>(null);
-
+    const token = getToken()
 
     useEffect(() => {
         if (movies.length === 0) dispatch(loadMovies());
@@ -61,6 +63,7 @@ const Booking: React.FC = () => {
 
     const toggleSeat = (row: number, seat: number) => {
         if (isBooked(row, seat)) return;
+        if (!token) navigate('/login');
         const seatObj = { rowNumber: row, seatNumber: seat };
         setSelectedSeats(prev =>
             isSelected(row, seat)
@@ -73,12 +76,11 @@ const Booking: React.FC = () => {
         if (!session) return;
         try {
             await bookSeats(session.id, selectedSeats);
-            // alert('Бронирование успешно!');
             navigate('/tickets');
             setSelectedSeats([]);
         } catch (err) {
             console.error(err);
-            alert('Ошибка при бронировании');
+            navigate('/login');
         }
     };
 
@@ -88,7 +90,7 @@ const Booking: React.FC = () => {
     const { seats } = session;
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ paddingTop: '20px', paddingLeft: '20px'  }}>
             <h2 style={{ textAlign: 'center' }}>Выбрать места</h2>
 
             <p>
@@ -96,19 +98,18 @@ const Booking: React.FC = () => {
                 Кинотеатр: {cinema?.name ?? `#${session.cinemaId}`} <br />
                 Время: {formatDateTime(session.startTime)}
             </p>
-            <div style={{ marginTop: '20px' }}>
-                <div style={{ display: 'flex', marginBottom: '8px', marginLeft: '60px' }}>
+            <div style={{ marginTop: '12px' }}>
+                <div style={{ display: 'flex', marginBottom: '4px', marginLeft: '60px' }}>
                     {Array.from({ length: seats.seatsPerRow }, (_, i) => (
                         <div
                             key={i}
                             style={{
-                                width: '32px',
-                                height: '32px',
-                                lineHeight: '30px',
+                                width: '23px',
+                                height: '22px',
+                                lineHeight: '26px',
                                 textAlign: 'center',
                                 fontSize: '0.9rem',
-                                // background: '#bdc3c7',
-                                borderRadius: '4px',
+                                borderRadius: '2px',
                                 marginRight: '4px',
                             }}
                         >
@@ -117,11 +118,11 @@ const Booking: React.FC = () => {
                     ))}
                 </div>
                 {Array.from({ length: seats.rows }, (_, rowIdx) => (
-                    <div key={rowIdx} style={{ display: 'flex', marginBottom: '6px' }}>
+                    <div key={rowIdx} style={{ display: 'flex', marginBottom: '0px' }}>
                         <div
                             style={{
                                 width: '60px',
-                                height: '30px',
+                                height: '28px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'flex-start',
@@ -140,19 +141,9 @@ const Booking: React.FC = () => {
                                 <div
                                     key={seatIdx}
                                     onClick={() => toggleSeat(row, seat)}
-                                    style={{
-                                        width: '30px',
-                                        height: '30px',
-                                        marginRight: '4px',
-                                        background: booked
-                                            ? '#e74c3c'
-                                            : selected
-                                                ? '#2ecc71'
-                                                : '#ecf0f1',
-                                        border: '1px solid #ccc',
-                                        borderRadius: '4px',
-                                        cursor: booked ? 'not-allowed' : 'pointer',
-                                    }}
+                                    className={`${styles.seat} ${
+                                        booked ? styles.booked : selected ? styles.selected : styles.available
+                                    }`}
                                 />
                             );
                         })}
@@ -161,12 +152,13 @@ const Booking: React.FC = () => {
             </div>
             <button
                 onClick={handleBooking}
-                disabled={selectedSeats.length === 0}
+                disabled={(selectedSeats.length === 0) && !!token}
                 style={{
                     marginTop: '20px',
-                    padding: '10px 20px',
-                    fontSize: '1rem',
-                    background: '#3498db',
+                    padding: '10px 16px',
+                    fontSize: '16px',
+                    backgroundColor: 'rgb(229, 9, 20)',
+                    boxShadow: 'rgba(0, 0, 0, 0.7) 0 15px 25px -10px, rgba(0, 0, 0, 0.5) 0 9px 8px -10px',
                     color: 'white',
                     border: 'none',
                     borderRadius: '6px',

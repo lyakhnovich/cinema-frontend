@@ -1,0 +1,47 @@
+.seat {
+    width: 24px;
+    height: 24px;
+    margin-right: 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.booked {
+    background-color: #e74c3c;
+    cursor: not-allowed;
+}
+
+.selected {
+    background-color: #3abf75;
+}
+
+.available {
+    background-color: rgb(211, 211, 211);
+}
+
+.available:hover {
+    background-color: rgb(190, 255, 201);
+}
+
+
+
+.payButton {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    border: 0;
+    transition: background-color 0.3s ease;
+}
+
+.payActive {
+    color: #fff;
+    background-color: #0a7aff;
+    cursor: pointer;
+}
+
+.payDisabled {
+    color: #b0b0b6;
+    background-color: #f2f2f5;
+    cursor: default;
+}

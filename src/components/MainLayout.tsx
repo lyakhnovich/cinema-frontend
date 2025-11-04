@@ -14,11 +14,11 @@ const MainLayout: React.FC = () => {
 };
 
 const styles = {
-    wrapper: { display: 'flex', padding: '0 220px'/*, minHeight: '100vh'*/ },
+    wrapper: { display: 'flex', padding: '0 340px' },
     content: {
         flex: 1,
         padding: '20px',
-        marginLeft: '240px',
+        marginLeft: '200px',
     },
 };
 

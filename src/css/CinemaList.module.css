@@ -22,7 +22,8 @@ th {
     padding: 6px 10px;
     font-size: 14px;
     cursor: pointer;
-    background-color: #1976d2;
+    background-color: rgb(229, 9, 20);
+    box-shadow: rgba(0, 0, 0, 0.7) 0 15px 25px -10px, rgba(0, 0, 0, 0.5) 0 9px 8px -10px;
     color: white;
     border: none;
     border-radius: 4px;
@@ -30,5 +31,5 @@ th {
 }
 
 .sessionButton:hover {
-    background-color: #1565c0;
+    background-color: rgb(193, 17, 25);
 }

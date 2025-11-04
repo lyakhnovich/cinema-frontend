@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #1a1b23;
+    font-weight: 200;
+    line-height: 1.4;
+    color: #eee;
+}
+
+h1, h2, h3, th, .header {
+    font-family: 'Inter', sans-serif;
+    font-weight: 550;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #eee;
+}
+
+.divider {
+    border: none;
+    height: 1px;
+    background-color: #2a2b35;
+    margin-bottom: 6px;
+}
+
+.session-button {
+    margin-left: 8px;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    border: 0;
+    background: #fff500;
+    cursor: pointer;
+}
+
+.session-button:hover {
+    background-color: rgb(255, 251, 143);
+}
+
+.back-button {
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    box-shadow: rgba(0, 0, 0, 0.7) 0 15px 25px -10px, rgba(0, 0, 0, 0.5) 0 9px 8px -10px;
+    border: none;
+    border-radius: 4px;
+    transition: background 0.2s;
+    margin-top: 40px;
+}
+
+.back-button:hover {
+    background-color: #cacaca;
+}

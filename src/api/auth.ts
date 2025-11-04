@@ -31,7 +31,7 @@ export async function login(username: string, password: string): Promise<string>
         body: JSON.stringify({ username, password }),
     });
 
-    if (!res.ok) throw new Error('Неверный логин или пароль');
+    if (!res.ok) throw new Error('Неверный логин или пароль. Проверьте введенные данные и попробуйте снова');
     const data = await res.json();
     return data.token;
 }

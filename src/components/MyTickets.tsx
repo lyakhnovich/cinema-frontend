@@ -8,16 +8,25 @@ import { fetchSettings } from '../api/settings';
 import BookingCard from "./BookingCard";
 import {loadSessionsByCinemaId} from "../store/cinemaSessionsSlice";
 import {loadCinemas} from "../store/cinemasSlice";
+import {getToken} from "../store/authSlice";
+import {useNavigate} from "react-router-dom";
 
 const MyTickets: React.FC = () => {
+    const navigate = useNavigate()
     const dispatch = useAppDispatch();
-
     const bookings = useAppSelector(state => state.bookings.items);
     const movies = useAppSelector(state => state.movies.items);
     const cinemas = useAppSelector(state => state.cinemas.items);
     const sessionsByMovie = useAppSelector(state => state.movieSessions.byMovieId);
     const sessionsByCinema = useAppSelector(state => state.cinemaSessions.byCinemaId);
     const [bookingPaymentTimeSeconds, setBookingPaymentTimeSeconds] = useState<number>(0);
+    const token = getToken()
+
+    useEffect(() => {
+        if(!token) {
+            navigate('/login')
+        }
+    }, [token]);
 
     useEffect(() => {
         dispatch(loadMyBookings());
@@ -79,11 +88,10 @@ const MyTickets: React.FC = () => {
     return (
         <div style={{ padding: '20px' }}>
             <h2 style={{ textAlign: 'center' }}>Мои билеты</h2>
-
-            <h3>Не оплаченные</h3>
-            <hr />
+            <h4>Не оплаченные</h4>
+            <hr className="divider"/>
             {unpaid.length === 0 ? (
-                <p>Нет неоплаченных билетов</p>
+                <p style={{ color: 'grey' }}>Нет неоплаченных билетов</p>
             ) : (
                 unpaid.map(b => {
                     const session = allSessions.find(s => s.id === b.movieSessionId);
@@ -102,10 +110,10 @@ const MyTickets: React.FC = () => {
                 })
             )}
 
-            <h3 style={{ marginTop: '30px' }}>Будущие</h3>
-            <hr />
+            <h4 style={{ marginTop: '30px' }}>Будущие</h4>
+            <hr className="divider"/>
             {future.length === 0 ? (
-                <p>Нет будущих билетов</p>
+                <p style={{ color: 'grey' }}>Нет будущих билетов</p>
             ) : (
                 future.map(b => {
                     const session = allSessions.find(s => s.id === b.movieSessionId);
@@ -124,10 +132,10 @@ const MyTickets: React.FC = () => {
                 })
             )}
 
-            <h3 style={{ marginTop: '30px' }}>Прошедшие</h3>
-            <hr />
+            <h4 style={{ marginTop: '30px' }}>Прошедшие</h4>
+            <hr className="divider"/>
             {past.length === 0 ? (
-                <p>Нет прошедших билетов</p>
+                <p style={{ color: 'grey' }}>Нет прошедших билетов</p>
             ) : (
                 past.map(b => {
                     const session = allSessions.find(s => s.id === b.movieSessionId);

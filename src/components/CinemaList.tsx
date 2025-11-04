@@ -20,7 +20,7 @@ const CinemaList: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <h2>🏛 Кинотеатры</h2>
+            <h2 style={{ textAlign: 'center' }}>Кинотеатры</h2>
             {loading ? (
                 <p>Загрузка...</p>
             ) : (

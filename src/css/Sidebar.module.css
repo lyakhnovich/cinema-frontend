@@ -1,33 +1,41 @@
+h1, h2 {
+    font-family: 'Montserrat', sans-serif;
+}
+
 .sidebar {
     position: fixed;
     top: 0;
-    /*left: 0;*/
     height: 100vh;
-    width: 240px;
-    background-color: #f9f9f9;
-    /*box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);*/
+    width: 200px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    box-shadow: 14px 0px 8px -3px rgba(0, 0, 0, 0.1);
 }
 
+.logo {
+    margin: 20px;
+}
 
 .title {
     margin-left: 20px;
     margin-bottom: 20px;
     font-size: 18px;
+    padding: 0 8px;
     font-weight: bold;
+    color: #1E1E1E;
 }
 
 .nav {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
 .link {
     text-decoration: none;
-    color: #333;
+    margin: 0 12px;
+    color: #FFFFFF;
     font-size: 16px;
     padding: 8px;
     border-radius: 4px;
@@ -35,13 +43,14 @@
 }
 
 .link:hover {
-    background-color: #e0e0e0;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .button {
     background: none;
+    margin: 0 12px;
     border: none;
-    color: #333;
+    color: #FFFFFF;
     font-size: 16px;
     text-align: left;
     padding: 8px;
@@ -50,5 +59,12 @@
 }
 
 .button:hover {
-    background-color: #e0e0e0;
+    background-color: rgba(255, 255, 255, 0.1);
 }
+
+
+
+
+
+
+

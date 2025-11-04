@@ -7,6 +7,7 @@ import { getMovieById, formatTime, groupSessionsByDate } from '../utils/cinemaUt
 import { BASE_URL } from '../api/config';
 import { selectActualSessionsByCinema } from '../store/selectors';
 import {loadCinemas} from "../store/cinemasSlice";
+import styles from "../css/MovieDetail.module.css";
 
 const CinemaDetail: React.FC = () => {
     const navigate = useNavigate();
@@ -34,8 +35,8 @@ const CinemaDetail: React.FC = () => {
 
             {grouped.map(([date, daySessions]) => (
                 <div key={date} style={{ marginTop: '30px' }}>
-                    <h3>{date}</h3>
-                    <hr />
+                    <h3 className={styles.dateHeading}>{date}</h3>
+                    <hr className="divider"/>
 
                     {Array.from(new Set(daySessions.map(s => s.movieId))).map(movieId => {
                         const movie = getMovieById(movies, movieId);
@@ -56,10 +57,12 @@ const CinemaDetail: React.FC = () => {
                                         src={`${BASE_URL}${movie?.posterImage}`}
                                         alt={movie?.title}
                                         style={{
-                                            width: '80px',
-                                            height: '120px',
+                                            width: '60px',
+                                            height: 'auto',
                                             objectFit: 'cover',
                                             marginRight: '10px',
+                                            borderRadius: '4px',
+                                            boxShadow: 'rgba(0, 0, 0, 0.7) 0 15px 25px -10px, rgba(0, 0, 0, 0.5) 0 9px 8px -10px'
                                         }}
                                     />
                                     <strong>{movie?.title ?? `Фильм #${movieId}`}</strong>
@@ -70,17 +73,12 @@ const CinemaDetail: React.FC = () => {
                                         <button
                                             key={session.id}
                                             onClick={() => navigate(`/booking/${session.id}`)}
-                                            style={{
-                                                marginLeft: '8px',
-                                                padding: '4px 8px',
-                                                fontSize: '0.9rem',
-                                                borderRadius: '4px',
-                                                border: '1px solid #ccc',
-                                                background: '#f5f5f5',
-                                                cursor: 'pointer',
-                                            }}
+                                            className='session-button'
                                         >
-                                            {formatTime(session.startTime)}
+                                            {new Date(session.startTime).toLocaleTimeString([], {
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                            })}
                                         </button>
                                     ))}
                                 </div>

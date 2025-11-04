@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadMovies } from '../store/movieSessionsSlice';
 import { BASE_URL } from "../api/config";
 
-
 const MovieList: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -18,14 +17,14 @@ const MovieList: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <h2>🎬 Фильмы</h2>
+            <h2 style={{ textAlign: 'center' }}>Фильмы</h2>
             {loading ? (
                 <p>Загрузка...</p>
             ) : (
                 <table className={styles.table}>
                     <thead>
                     <tr>
-                        <th>Постер</th>
+                        <th></th>
                         <th>Название</th>
                         <th>Длительность</th>
                         <th>Рейтинг</th>

@@ -58,8 +58,8 @@ const MovieDetail: React.FC = () => {
             </div>
             {grouped.map(([date, daySessions]) => (
                 <div key={date} style={{ marginTop: '30px' }}>
-                    <h3>{date}</h3>
-                    <hr />
+                    <h3 className={styles.dateHeading}>{date}</h3>
+                    <hr className="divider"/>
 
                     {Array.from(new Set(daySessions.map(s => s.cinemaId))).map(cinemaId => {
                         const cinema = getCinema(cinemaId);
@@ -72,7 +72,7 @@ const MovieDetail: React.FC = () => {
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
-                                    marginBottom: '10px',
+                                    padding: '6px 12px',
                                 }}
                             >
                                 <strong>{cinema?.name ?? `Кинотеатр #${cinemaId}`}</strong>
@@ -82,15 +82,7 @@ const MovieDetail: React.FC = () => {
                                         <button
                                             key={session.id}
                                             onClick={() => navigate(`/booking/${session.id}`)}
-                                            style={{
-                                                marginLeft: '8px',
-                                                padding: '4px 8px',
-                                                fontSize: '0.9rem',
-                                                borderRadius: '4px',
-                                                border: '1px solid #ccc',
-                                                background: '#f5f5f5',
-                                                cursor: 'pointer',
-                                            }}
+                                            className='session-button'
                                         >
                                             {new Date(session.startTime).toLocaleTimeString([], {
                                                 hour: '2-digit',
@@ -106,15 +98,7 @@ const MovieDetail: React.FC = () => {
             ))}
 
             <button
-                style={{
-                    marginTop: '40px',
-                    padding: '8px 16px',
-                    fontSize: '1rem',
-                    borderRadius: '4px',
-                    border: '1px solid #ccc',
-                    background: '#f5f5f5',
-                    cursor: 'pointer',
-                }}
+                className='back-button'
                 onClick={() => navigate('/movies')}
             >
                 ← Назад к списку
